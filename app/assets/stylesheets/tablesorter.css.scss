@@ -1,0 +1,9 @@
+table thead tr .header {
+	cursor: pointer;
+}
+table thead tr .headerSortUp::before {
+  content: "\25BC";
+}
+table thead tr .headerSortDown::before {
+  content: "\25B2";
+}

@@ -1,0 +1,23 @@
+body.dragging, body.dragging * {
+  cursor: move !important;
+}
+
+.dragged {
+  position: absolute;
+  opacity: 0.5;
+  z-index: 2000;
+}
+
+ol.js-sortable li.placeholder {
+  position: relative;
+  /** More li styles **/
+}
+ol.js-sortable li::before {
+  content: "\21C5";
+  cursor: move;
+}
+
+ol.js-sortable li.placeholder::before {
+  position: absolute;
+  /** Define arrowhead **/
+}

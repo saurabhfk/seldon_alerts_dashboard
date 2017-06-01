@@ -1,0 +1,151 @@
+<style>
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th, td {
+    text-align: left;
+    padding: 8px;
+  }
+
+  tr:nth-child(even){background-color: #f2f2f2}
+
+  th {
+    background-color: #4CAF50;
+    color: white;
+  }
+</style>
+
+<div  id="b">
+  <table class="collaptable">
+    <tr>
+      <form action="add_app" method="post">
+        <td>Add App Name:</td>
+        <td><input type="text" name="add_appname" value="Appname"></td>
+        <td><input type="submit" value="Submit1"></td>
+      </form>
+      <form action="delete_app" method="post">
+        <td>Delete App Name:</td>
+        <td><input type="text" name="delete_appname" value="Appname"></td>
+        <td><input type="submit" value="Submit2"></td>
+      </form>
+    </tr>
+    <tr>
+      <th>App</th>
+      <th>STATUS</th>
+      <th> Disk Free%</th>
+      <th> Memory Free%</th>
+      <th> CPU Idle%</th>
+      <th>Network Latency</th>
+    </tr>
+    <% @elb_to_percentage_up %>
+    <% @elb_to_percentage_up.each do |elb, percentage| %>
+        <%@elb = elb%>
+        <tr>
+          <td>
+            <%=elb%>
+          </td>
+          <td  id="sdfds" data-toggle="collapse" data-target="#<%=elb%>" class="accordion-toggle" >
+            <% if percentage>=70%><button type="button" class="btn btn-success">UP</button><% end%>
+            <% if percentage==0%><button type="button" class="btn btn-danger">Down</button><%end%>
+            <% if percentage>0 && percentage<70%><button type="button" class="btn btn-warning">Warning</button><%end%>
+          </td>
+          <td id="sdfds" data-toggle="collapse" data-target="#<%=elb%>" class="accordion-toggle">
+            <button  id=<%=("df"+elb)%> type="button" class="btn btn btn-success">Expand</button>
+          </td>
+          <td  id="sdfds" data-toggle="collapse" data-target="#<%=elb%>" class="accordion-toggle">
+            <button id=<%=("mf"+elb)%> type="button" class="btn btn btn-success">Expand</button>
+          </td>
+          <td  id="sdfds" data-toggle="collapse" data-target="#<%=elb%>" class="accordion-toggle">
+            <button id=<%=("cpu"+elb)%> type="button" class="btn btn btn-success">Expand</button>
+          </td>
+          <td  id="sdfds" data-toggle="collapse" data-target="#<%=elb%>" class="accordion-toggle">
+            <button type="button" class="btn">Expand</button>
+          </td>
+
+        </tr>
+        <tr>
+          <td colspan="12" class="hiddenRow"><div class="accordian-body collapse" id="<%=elb%>" >
+            <table class="table table-striped collaptable">
+              <% $elb_to_machines_mapping[elb].each do |machine|%>
+                  <tr>
+                    <td class="s">
+                      <%=machine%>
+                    </td>
+
+
+                    <td class="s">
+                      <% if @machine_status[machine] == 'true'%> <button type="button" class="btn btn-success">UP</button><% end%>
+                      <% if @machine_status[machine] == 'false'%> <button type="button" class="btn btn-danger">Down</button><%end%>
+                    </td>
+
+
+                    <td class="s">
+                      <% if @diskfree[machine]==nil then%><button type="button">not found</button><% end%>
+                      <% if (@diskfree[machine] && @diskfree[machine].to_i>=30) then%><button type="button" class="btn btn-success"><%=@diskfree[machine]%></button><% end%>
+                      <% if (@diskfree[machine] && @diskfree[machine].to_i<10) then%>
+                          <button type="button" class="btn btn-danger"><%=@diskfree[machine]%></button>
+                          <script>document.getElementById('<%=("df"+elb)%>').className = "btn btn-warning"</script>
+                      <% end%>
+                      <% if (@diskfree[machine] && @diskfree[machine].to_i>=10 && @diskfree[machine].to_i<30 ) then%>
+                          <button type="button" class="btn btn-warning"><%=@diskfree[machine]%></button>
+                          <script>document.getElementById('<%=("df"+elb)%>').className = "btn btn-warning" </script>
+                      <% end%>
+                    </td>
+
+
+
+                    <td class="s">
+                      <% if @memoryfree[machine]==nil then%><button type="button">not found</button><% end%>
+                      <% if (@memoryfree[machine] && @memoryfree[machine]>=30) then%>
+                          <button type="button" class="btn btn-success"><%=@memoryfree[machine]%></button>
+                      <% end%>
+                      <% if (@memoryfree[machine] && @memoryfree[machine]<10) then%>
+                          <button type="button" class="btn btn-danger"><%=@memoryfree[machine]%></button>
+                          <script>document.getElementById('<%=("mf"+elb)%>').className = "btn btn-warning"</script>
+                      <% end%>
+                      <% if (@memoryfree[machine] && @memoryfree[machine]>=10 && @memoryfree[machine]<30) then%>
+                          <button type="button" class="btn btn-warning"><%=@memoryfree[machine]%></button>
+                          <script>document.getElementById('<%=("mf"+elb)%>').className = "btn btn-warning"</script>
+                      <% end%>
+                    </td>
+
+
+                    <td class="s">
+                      <% if @cpuidle[machine]==nil then%>
+                          <button type="button">not found</button>
+                      <% end%>
+                      <% if (@cpuidle[machine] && @cpuidle[machine]>=30) then%>
+                          <button type="button" class="btn btn-success"><%=@cpuidle[machine]%>
+                          </button>
+                      <% end%>
+                      <% if (@cpuidle[machine] && @cpuidle[machine]<10) then%>
+                          <button type="button" class="btn btn-danger"><%=@cpuidle[machine]%></button>
+                          <script>document.getElementById('<%=("cpu"+elb)%>').className = "btn btn-warning"</script>
+                      <% end%>
+                      <% if (@cpuidle[machine] && @cpuidle[machine]>=10 && @cpuidle[machine]<30) then%>
+                          <button type="button" class="btn btn-warning"><%=@cpuidle[machine]%></button>
+                          <script>document.getElementById('<%=("cpu"+elb)%>').className = "btn btn-warning"</script>
+                      <% end%>
+                    </td>
+
+                    <td class="s">
+                      <button type="button"><%=@network_latency[machine]%></button>
+                    </td>
+
+
+
+                  </tr>
+              <%end%>
+            </table>
+
+          </div> </td>
+        </tr>
+    <%end%>
+  </table>
+</div>
+
+<script>
+  setTimeout(function(){ document.location.reload(true); }, 60000);
+</script>

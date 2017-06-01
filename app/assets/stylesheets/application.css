@@ -1,0 +1,46 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require bootstrap-import
+ *= require select2
+ *= require select2-bootstrap
+ * require_tree .
+ *= require tablesorter
+ *= require jquery.sortable
+ *= require_self
+ */
+.tac {
+    text-align: center;
+}
+.tar {
+    text-align: right;
+}
+.nopadding {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+
+#loading {
+    display: none;
+    position: fixed;
+    top: 350px;
+    left: 50%;
+    margin-top: -96px;
+    margin-left: -96px;
+    background-color: #ccc;
+    opacity: .85;
+    border-radius: 25px;
+    width: 192px;
+    height: 192px;
+    z-index: 9999;
+}

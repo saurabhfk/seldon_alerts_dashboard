@@ -1,0 +1,11 @@
+deployed_path:
+- "/home/saurabh.g"
+apps:
+- fk-sp-seller-analytics
+- fk-sp-darwin-tiering
+- fk-sp-analytics-data-service
+- fk-sp-idp
+- fk-sp-seldon-snoopy
+- fk-sp-seller-promotions
+- fk-sp-yoda-action-framework
+- fk-sp-juno-orchestrator

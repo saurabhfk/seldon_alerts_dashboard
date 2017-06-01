@@ -1,0 +1,26 @@
+
+// "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
+@import "bootstrap-sprockets";
+
+// Override from https://github.com/twbs/bootstrap-sass/blob/master/assets/stylesheets/bootstrap/_variables.scss
+$navbar-height:                    30px !default;
+$font-size-base:          12px !default;
+$line-height-base:        1.213 !default; // 20/14
+$table-bg-hover:                #d5d5d5 !default;
+
+.table-hover {
+  > tbody > tr:hover {
+    border-left: 2px black solid;
+    border-right: 2px black solid;
+  }
+}
+
+@import "bootstrap";
+
+.nav.big-buttons > li > a {
+  padding: 4em 15px;
+}
+
+.nav.medium-buttons > li > a {
+  padding: 2em 10px;
+}
